@@ -24,6 +24,54 @@ A Node.js-based Loan Management System for handling loan creation, repayments, s
 - Automatic loan status updates (ACTIVE, CLOSED, DEFAULTED)
 - Support for future date testing scenarios
 
+## Quick Start with Docker
+
+### Development Environment
+```bash
+# Start the application and database
+docker-compose up
+
+# Rebuild and start (after dependencies change)
+docker-compose up --build
+
+# Run database migrations
+docker-compose exec app npm run db:migrate
+```
+
+### Production Environment
+```bash
+# Build production image
+docker build -t loan-management-system .
+
+# Run production container
+docker run -p 3000:3000 loan-management-system
+```
+
+### Test Environment
+```bash
+# Run all tests
+docker-compose run test
+
+# Run specific test file
+docker-compose run test npm test test/services/loan.service.test.js
+
+# Run tests with coverage
+docker-compose run test npm run test:coverage
+```
+
+## Manual Setup
+
+### Prerequisites
+- Node.js (v14 or higher)
+- PostgreSQL (v12 or higher)
+- npm or yarn
+
+### Installation Steps
+1. Clone the repository
+2. Install dependencies
+3. Configure environment
+4. Run migrations
+
 ## Technical Specifications
 
 ### Database Structure
@@ -161,98 +209,136 @@ Monthly Interest = Outstanding Principal × (Annual Rate ÷ 12)
      - Payment status
      - Due dates
 
-## Prerequisites
+## Testing
 
-- Node.js (v14 or higher)
-- PostgreSQL (v12 or higher)
-- npm or yarn
+### Unit Tests
+The project uses the following testing stack:
+- Mocha: Test runner
+- Chai: Assertion library
+- Sinon: Test spies, stubs, and mocks
+- NYC: Code coverage
 
-## Setup
+Test files are organized by feature:
+```
+test/
+├── services/
+│   ├── loan.service.test.js
+│   └── ...
+├── models/
+│   └── ...
+└── setup.js
+```
 
-1. Clone the repository:
+Key test cases:
+1. Loan Creation
+   - FLAT interest calculation
+   - REDUCING balance (EMI)
+   - Schedule generation
+
+2. Repayment Processing
+   - Exact payment matching
+   - Transaction creation
+   - Schedule updates
+
+3. Delinquency Checking
+   - Status determination
+   - Consecutive payment tracking
+   - Future date testing
+
+### Running Tests
 ```bash
-git clone <repository-url>
-cd loan-management-system
+# Run all tests
+npm test
+
+# Watch mode for development
+npm run test:watch
+
+# Generate coverage report
+npm run test:coverage
 ```
 
-2. Install dependencies:
-```bash
-npm install
-```
+## API Documentation
 
-3. Create a `.env` file in the root directory:
-```
+### Postman Collection
+A complete Postman collection is available in the `postman` directory. To use it:
+
+1. Import `postman/Loan_Management_System.postman_collection.json` into Postman
+2. Import `postman/environments/*.postman_environment.json` for environment variables
+3. Select the desired environment (local, docker, production)
+
+### Available Environments
+- `local.postman_environment.json`: Local development
+- `docker.postman_environment.json`: Docker development
+- `production.postman_environment.json`: Production settings
+
+### API Endpoints
+
+#### Loan Management
+- Create Loan
+  ```http
+  POST /api/loans
+  Content-Type: application/json
+
+  {
+    "principal_amount": 5000000,
+    "interest_rate": 10,
+    "interest_type": "FLAT",
+    "tenor": 50,
+    "tenor_type": "WEEK",
+    "start_date": "2024-03-20"
+  }
+  ```
+
+- Get Loan Details
+  ```http
+  GET /api/loans/{loan_id}
+  ```
+
+#### Payment Processing
+- Make Repayment
+  ```http
+  POST /api/loans/{loan_id}/repayment
+  Content-Type: application/json
+
+  {
+    "amount": 110000,
+    "transaction_date": "2024-03-27"
+  }
+  ```
+
+#### Status Checking
+- Check Delinquency
+  ```http
+  GET /api/loans/{loan_id}/delinquency
+  ```
+
+## Docker Configuration
+
+### Container Structure
+- `app`: Main application container
+- `db`: PostgreSQL database
+- `test`: Test environment
+- `db_test`: Test database
+
+### Volumes
+- `postgres_data`: Persistent database storage
+- Application code mounting for development
+
+### Environment Variables
+```env
+NODE_ENV=development
 DB_USERNAME=postgres
 DB_PASSWORD=postgres
 DB_DATABASE=loan_management
-DB_HOST=localhost
+DB_HOST=db
 DB_PORT=5432
-NODE_ENV=development
-PORT=3000
 ```
 
-4. Create the database:
-```bash
-createdb loan_management
-```
-
-5. Run database migrations:
-```bash
-npm run db:migrate
-```
-
-## API Endpoints
-
-### Loan Management
-- `POST /api/loans` - Create a new loan
-- `GET /api/loans/{loan_id}` - Get loan details
-- `GET /api/loans/{loan_id}/schedule` - Get loan schedule
-
-### Payment Processing
-- `POST /api/loans/{loan_id}/repayment` - Process a repayment
-  - Requires exact match with due installments
-  - Updates loan and schedule statuses
-
-### Status Checking
-- `GET /api/loans/{loan_id}/outstanding` - Get outstanding balance
-- `GET /api/loans/{loan_id}/delinquency` - Check delinquency status
-
-## Development
-
-Run in development mode:
-```bash
-npm run dev
-```
-
-Run tests:
-```bash
-npm test
-```
-
-## Data Models
-
-### Loan
-- UUID-based identifier
-- Loan amount and interest details
-- Status tracking (ACTIVE/CLOSED/DEFAULTED)
-- Payment tracking fields
-- Soft delete support
-
-### LoanSchedule
-- Installment tracking
-- Due date management
-- Outstanding balance tracking
-- Payment allocation records
-
-### LoanTransaction
-- Payment recording
-- Status tracking (PENDING/COMPLETED/FAILED)
-- Transaction date tracking
-
-### LoanTransactionDetail
-- Payment allocation details
-- Schedule mapping
-- Principal and interest allocation
+### Security Features
+- Non-root user in containers
+- Production dependencies separation
+- Environment isolation
+- Secure defaults
 
 ## License
 

@@ -106,6 +106,11 @@ class LoanService {
 
   static async getLoanById(loanId) {
     const loan = await Loan.findByPk(loanId);
+    if (!loan) {
+      const error = new Error('Loan not found');
+      error.status = 404;
+      throw error;
+    }
     return loan;
   }
 

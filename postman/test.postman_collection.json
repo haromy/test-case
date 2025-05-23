@@ -1,0 +1,182 @@
+{
+	"info": {
+		"_postman_id": "54599315-9a53-4de8-ba92-73fced0df1c6",
+		"name": "test",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "3858694"
+	},
+	"item": [
+		{
+			"name": "create loan",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"principal_amount\": 5000000,\r\n    \"interest_rate\": 10,\r\n    \"interest_type\": \"REDUCING\",\r\n    \"tenor\": 24,\r\n    \"tenor_type\": \"MONTH\",\r\n    \"start_date\": \"2025-01-02\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{hosts}}/api/v1/loans/create-schedule",
+					"host": [
+						"{{hosts}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"loans",
+						"create-schedule"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get loan by uuid",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{hosts}}/api/v1/loans/:uuid",
+					"host": [
+						"{{hosts}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"loans",
+						":uuid"
+					],
+					"variable": [
+						{
+							"key": "uuid",
+							"value": "f71057de-0213-4247-97cf-2c7a43cd1527"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get loan schedule by uuid",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{hosts}}/api/v1/loans/:uuid/schedule",
+					"host": [
+						"{{hosts}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"loans",
+						":uuid",
+						"schedule"
+					],
+					"variable": [
+						{
+							"key": "uuid",
+							"value": "f71057de-0213-4247-97cf-2c7a43cd1527"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "make payment by loan UUID",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"amount\": 5075941.9,\r\n    \"payment_date\": \"2027-01-25\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{hosts}}/api/v1/loans/:uuid/repayment",
+					"host": [
+						"{{hosts}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"loans",
+						":uuid",
+						"repayment"
+					],
+					"variable": [
+						{
+							"key": "uuid",
+							"value": "d95aff2b-a8ae-4cee-b687-d185b2f4261e"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "OS loan by UUID",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{hosts}}/api/v1/loans/:uuid/outstanding",
+					"host": [
+						"{{hosts}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"loans",
+						":uuid",
+						"outstanding"
+					],
+					"variable": [
+						{
+							"key": "uuid",
+							"value": "d95aff2b-a8ae-4cee-b687-d185b2f4261e"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "check deliquency by loan UUID",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{hosts}}/api/v1/loans/:uuid/delinquency",
+					"host": [
+						"{{hosts}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"loans",
+						":uuid",
+						"delinquency"
+					],
+					"variable": [
+						{
+							"key": "uuid",
+							"value": "57b585a9-30fc-42d4-8689-0fc2b363d83a"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
