@@ -21,13 +21,6 @@ router.get(
   LoanController.getLoanById
 );
 
-// Record a repayment
-router.post(
-  '/loans/:loan_id/repayment',
-  recordPaymentValidation,
-  LoanController.recordPayment
-);
-
 // Get loan schedule
 router.get(
   '/loans/:loan_id/schedule',
@@ -35,16 +28,21 @@ router.get(
   LoanController.getLoanSchedule
 );
 
-// Get outstanding balance
+// Record a repayment
+router.post(
+  '/loans/:loan_id/repayment',
+  recordPaymentValidation,
+  LoanController.recordPayment
+);
+
 router.get(
   '/loans/:loan_id/outstanding',
   loanIdValidation,
   LoanController.getOutstandingBalance
 );
 
-// Check delinquency status
 router.get(
-  '/loans/:loan_id/delinquency_status',
+  '/loans/:loan_id/delinquency',
   loanIdValidation,
   LoanController.checkDelinquencyStatus
 );

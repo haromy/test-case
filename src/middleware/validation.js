@@ -39,7 +39,7 @@ const createLoanSchema = Joi.object({
 
 const recordPaymentSchema = Joi.object({
   payment_date: Joi.date().format('YYYY-MM-DD').required(),
-  amount_paid: Joi.number().precision(2).positive().required()
+  amount: Joi.number().precision(2).positive().required()
 });
 
 const loanIdSchema = Joi.object({

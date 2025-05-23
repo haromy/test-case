@@ -22,7 +22,7 @@ Loan.init({
     primaryKey: true
   },
   status: {
-    type: DataTypes.ENUM('ACTIVE', 'CLOSED', 'DEFAULTED'),
+    type: DataTypes.ENUM('ACTIVE', 'COMPLETED'),
     allowNull: false,
     defaultValue: 'ACTIVE'
   },
