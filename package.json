@@ -6,7 +6,9 @@
   "scripts": {
     "start": "node src/app.js",
     "dev": "nodemon src/app.js",
-    "test": "jest",
+    "test": "mocha --require test/setup.js 'test/**/*.test.js'",
+    "test:watch": "mocha --require test/setup.js 'test/**/*.test.js' --watch",
+    "test:coverage": "nyc --reporter=html --reporter=text mocha --require test/setup.js 'test/**/*.test.js'",
     "db:migrate": "sequelize-cli db:migrate",
     "db:migrate:undo": "sequelize-cli db:migrate:undo",
     "db:seed": "sequelize-cli db:seed:all"
@@ -23,7 +25,6 @@
     "cors": "^2.8.5",
     "dotenv": "^16.0.3",
     "express": "^4.18.2",
-    "express-validator": "^7.0.1",
     "joi": "^17.13.3",
     "pg": "^8.10.0",
     "pg-hstore": "^2.3.4",
@@ -32,6 +33,12 @@
   },
   "devDependencies": {
     "nodemon": "^2.0.22",
-    "sequelize-cli": "^6.6.0"
+    "sequelize-cli": "^6.6.0",
+    "chai": "^4.3.7",
+    "chai-as-promised": "^7.1.1",
+    "mocha": "^10.2.0",
+    "nyc": "^15.1.0",
+    "sinon": "^15.0.3",
+    "sinon-chai": "^3.7.0"
   }
 }

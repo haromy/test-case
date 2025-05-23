@@ -1,0 +1,43 @@
+# Dependency directories
+node_modules
+npm-debug.log
+
+# Version control
+.git
+.gitignore
+
+# Environment variables
+.env
+.env.*
+
+# Development files
+.vscode
+.idea
+*.swp
+*.swo
+
+# Test coverage
+coverage
+.nyc_output
+
+# Docker
+Dockerfile
+Dockerfile.test
+docker-compose.yml
+.dockerignore
+
+# Documentation
+README.md
+docs/
+
+# Logs
+logs
+*.log
+
+# Temp files
+tmp/
+temp/
+
+# OS generated files
+.DS_Store
+Thumbs.db 

@@ -1,18 +1,64 @@
 version: '3.8'
 
 services:
-  postgres:
-    image: postgres:15
-    container_name: billing_engine_db
+  app:
+    build: .
+    image: loan-management-system
+    ports:
+      - "3000:3000"
     environment:
-      POSTGRES_USER: ${DB_USERNAME}
-      POSTGRES_PASSWORD: ${DB_PASSWORD}
-      POSTGRES_DB: ${DB_NAME}
+      - NODE_ENV=production
+      - DB_USERNAME=postgres
+      - DB_PASSWORD=postgres
+      - DB_DATABASE=loan_management
+      - DB_HOST=db
+      - DB_PORT=5432
+    depends_on:
+      - db
+    volumes:
+      - ./:/usr/src/app
+      - /usr/src/app/node_modules
+    command: npm run dev
+    restart: unless-stopped
+
+  db:
+    image: postgres:15-alpine
     ports:
       - "5432:5432"
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=loan_management
     volumes:
       - postgres_data:/var/lib/postgresql/data
     restart: unless-stopped
+
+  test:
+    build: 
+      context: .
+      dockerfile: Dockerfile.test
+    environment:
+      - NODE_ENV=test
+      - DB_USERNAME=postgres
+      - DB_PASSWORD=postgres
+      - DB_DATABASE=loan_management_test
+      - DB_HOST=db_test
+      - DB_PORT=5432
+    depends_on:
+      - db_test
+    volumes:
+      - ./:/usr/src/app
+      - /usr/src/app/node_modules
+    command: npm test
+
+  db_test:
+    image: postgres:15-alpine
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=loan_management_test
+    tmpfs:
+      - /var/lib/postgresql/data
 
 volumes:
   postgres_data: 
