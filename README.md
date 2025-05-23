@@ -274,9 +274,9 @@ A complete Postman collection is available in the `postman` directory. To use it
 ### API Endpoints
 
 #### Loan Management
-- Create Loan
+- Create Loan Schedule
   ```http
-  POST /api/loans
+  POST /api/loans/create-schedule
   Content-Type: application/json
 
   {
@@ -294,8 +294,13 @@ A complete Postman collection is available in the `postman` directory. To use it
   GET /api/loans/{loan_id}
   ```
 
+- Get Loan Schedule
+  ```http
+  GET /api/loans/{loan_id}/schedule
+  ```
+
 #### Payment Processing
-- Make Repayment
+- Record Repayment
   ```http
   POST /api/loans/{loan_id}/repayment
   Content-Type: application/json
@@ -306,8 +311,13 @@ A complete Postman collection is available in the `postman` directory. To use it
   }
   ```
 
+- Get Outstanding Balance
+  ```http
+  GET /api/loans/{loan_id}/outstanding
+  ```
+
 #### Status Checking
-- Check Delinquency
+- Check Delinquency Status
   ```http
   GET /api/loans/{loan_id}/delinquency
   ```
