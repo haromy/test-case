@@ -262,14 +262,8 @@ npm run test:coverage
 ### Postman Collection
 A complete Postman collection is available in the `postman` directory. To use it:
 
-1. Import `postman/Loan_Management_System.postman_collection.json` into Postman
-2. Import `postman/environments/*.postman_environment.json` for environment variables
-3. Select the desired environment (local, docker, production)
+1. Import `postman/test.postman_collection.json` into Postman
 
-### Available Environments
-- `local.postman_environment.json`: Local development
-- `docker.postman_environment.json`: Docker development
-- `production.postman_environment.json`: Production settings
 
 ### API Endpoints
 
